@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QPair>
 #include <QPoint>
+//并查集
 using v_type = QPair<size_t,size_t>;
 class Set
 {
@@ -51,7 +52,7 @@ public:
     friend bool issame(Set *A, Set *B);
 };
 
-
+//并查集地图，负责地图生成和移动判定的逻辑
 class UnifindMap : public QObject
 {
     Q_OBJECT

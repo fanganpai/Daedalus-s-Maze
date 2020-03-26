@@ -15,6 +15,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+//主窗口，完成绘图
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
