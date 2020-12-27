@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     QObject::connect(&w, &MainWindow::trydown,  &m, &UnifindMap::Down);
     QObject::connect(&w, &MainWindow::tryleft,  &m, &UnifindMap::Left);
     QObject::connect(&w, &MainWindow::tryright, &m, &UnifindMap::Right);
+    QObject::connect(&w, &MainWindow::help, &w, &MainWindow::cheet);
     QObject::connect(&m, &UnifindMap::win,      &w, &MainWindow::gameover);
     m.run();
     w.show();

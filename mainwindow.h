@@ -29,15 +29,18 @@ public slots:
     void initMap(const Set[][30]);
     void refresh(const QPoint&,int);
     void gameover();
+    void cheet();
 signals:
     void tryup();
     void trydown();
     void tryleft();
     void tryright();
+    void help();
 private:
     Ui::MainWindow *ui;
     QPushButton *m_button;
     QPixmap *Pix;
     QPair<bool,bool> M[40][30];
+    QPoint player = QPoint(1,1);
 };
 #endif // MAINWINDOW_H

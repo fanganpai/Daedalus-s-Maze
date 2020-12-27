@@ -30,6 +30,9 @@ void MainWindow::paintEvent(QPaintEvent *)
 
 void MainWindow::refresh(const QPoint &L, int flag)
 {
+    player.setX(L.x()/20);
+    player.setY(L.y()/20);
+
     QPainter P(Pix);
     P.setPen(Qt::white);
     P.setBrush(Qt::white);
@@ -131,6 +134,22 @@ void MainWindow::gameover()
     QMessageBox::about(this,"Ariadne's Thread","victory!");
 }
 
+std::vector<QPair<int,int> > A_algo(QPair<bool,bool> M[40][30],int x,int y);
+void MainWindow::cheet()
+{
+    auto route = A_algo(this->M,player.x(),player.y());
+    for (auto i:route)
+    {
+        auto x = i.first*20 + 10;
+        auto y = i.second*20+ 10;
+        QPainter P(Pix);
+        P.setPen(Qt::gray);
+        P.setBrush(Qt::gray);
+        P.drawEllipse(x,y,5,5);
+    }
+    return;
+}
+
 void MainWindow::keyPressEvent(QKeyEvent * event)
 {
     switch (event->key())
@@ -150,6 +169,9 @@ void MainWindow::keyPressEvent(QKeyEvent * event)
     case Qt::Key_Right:
     case Qt::Key_D:
         emit tryright();
+        break;
+    case Qt::Key_H:
+        emit help();
         break;
     default:
         break;
