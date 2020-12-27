@@ -66,6 +66,7 @@ public:
     }
 private:
     QPoint player = QPoint(30,30);
+    float speed;
 public slots:
     void Up();
     void Down();

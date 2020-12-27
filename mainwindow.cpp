@@ -33,21 +33,35 @@ void MainWindow::refresh(const QPoint &L, int flag)
     QPainter P(Pix);
     P.setPen(Qt::white);
     P.setBrush(Qt::white);
-    int r = 6.5;
+    float r = 6.5;
     int d = 2*r;
+    float line = 8.5;
     //清理影子
-    P.drawEllipse(L.x()-r-1, L.y()-r,  d,d);
-    P.drawEllipse(L.x()-r+1, L.y()-r,  d,d);
-    P.drawEllipse(L.x()-r,   L.y()-r-1,d,d);
-    P.drawEllipse(L.x()-r,   L.y()-r+1,d,d);
+    switch (flag)
+    {
+    case 0://Up
+        P.drawEllipse(L.x()-r,   L.y()-r+20,d,d);
+        break;
+    case 1://Left
+        P.drawEllipse(L.x()-r+20, L.y()-r,  d,d);
+        break;
+    case 2://Down
+        P.drawEllipse(L.x()-r,   L.y()-r-20,d,d);
+        break;
+    case 3://Right
+        P.drawEllipse(L.x()-r-20, L.y()-r,  d,d);
+        break;
+    default:
+        break;
+    }
     //画棋盘，修复被圆碰坏的部分
     P.setPen(QPen(Qt::gray,2));
     P.setBrush(Qt::white);
     P.drawRect(L.x()/20*20,L.y()/20*20,20,20);
     P.setPen(QPen(Qt::white,2));
-    for(int i = L.x()/20-1;i <= L.x()/20+1;i++)
+    for(int i = L.x()/20-2;i <= L.x()/20+2;i++)
     {
-        for (int j = L.y()/20-1; j <= L.y()/20+1;j++)
+        for (int j = L.y()/20-2; j <= L.y()/20+2;j++)
         {
             if(M[i][j].first)
                 P.drawLine(QPoint(20*i+20,20*j),QPoint(20*i+20,20*j+20));
@@ -63,16 +77,16 @@ void MainWindow::refresh(const QPoint &L, int flag)
     switch (flag)
     {
     case 0://Up
-        P.drawPoint(L.x(),L.y()+8.5);
+        P.drawPoint(L.x(),L.y()+line);
         break;
     case 1://Left
-        P.drawPoint(L.x()+8.5,L.y());
+        P.drawPoint(L.x()+line,L.y());
         break;
     case 2://Down
-        P.drawPoint(L.x(),L.y()-8.5);
+        P.drawPoint(L.x(),L.y()-line);
         break;
     case 3://Right
-        P.drawPoint(L.x()-8.5,L.y());
+        P.drawPoint(L.x()-line,L.y());
         break;
     default:
         break;
@@ -114,7 +128,7 @@ void MainWindow::initMap(const Set map[40][30])
 
 void MainWindow::gameover()
 {
-    QMessageBox::about(this,"Ariadne's Thread","锈剑仍可一斩，\n愿她的丝线绵长不断");
+    QMessageBox::about(this,"Ariadne's Thread","victory!");
 }
 
 void MainWindow::keyPressEvent(QKeyEvent * event)
@@ -122,15 +136,19 @@ void MainWindow::keyPressEvent(QKeyEvent * event)
     switch (event->key())
     {
     case Qt::Key_Up:
+    case Qt::Key_W:
         emit tryup();
         break;
     case Qt::Key_Down:
+    case Qt::Key_S:
         emit trydown();
         break;
     case Qt::Key_Left:
+    case Qt::Key_A:
         emit tryleft();
         break;
     case Qt::Key_Right:
+    case Qt::Key_D:
         emit tryright();
         break;
     default:

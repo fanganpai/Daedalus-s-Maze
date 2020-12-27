@@ -4,6 +4,7 @@
 #include <math.h>
 UnifindMap::UnifindMap(QObject *parent) : QObject(parent)
 {
+    this->speed = 20;
     srand((unsigned)time(NULL));
     size_t y = 1 + rand()%28;
     player = QPoint(20*1+10,20*y+10);
@@ -54,13 +55,15 @@ UnifindMap::UnifindMap(QObject *parent) : QObject(parent)
 
 void UnifindMap::Up()
 {
+    int px = player.x()/20;
+    int py = player.y()/20;
     int x = (player.x() - 0) / 20;
-    int y = (player.y() - 13) / 20;
+    int y = (player.y() - speed) / 20;
     if(y == 0)    return;
     //y = (player.y() - 1 - 7.5) / 20;
-    if(player.y()/20==y || map[x][y].right)
+    if(py/20==y || map[px][py-1].right)
     {
-        player = QPoint(player.x(),player.y() - 1);
+        player = QPoint(player.x(),player.y() - speed);
         emit moving(player, 0);
         return;
     }
@@ -69,13 +72,15 @@ void UnifindMap::Up()
 
 void UnifindMap::Left()
 {
-    int x = (player.x() - 13) / 20;
+    int px = player.x()/20;
+    int py = player.y()/20;
+    int x = (player.x() - speed) / 20;
     int y = (player.y() - 0) / 20;
     if(x == 0)    return;
     //x = (player.x() - 1 - 7.5) / 20;
-    if(player.x()/20==x || map[x][y].down)
+    if(px==x || map[px-1][py].down)
     {
-        player = QPoint(player.x() - 1,player.y());
+        player = QPoint(player.x() - speed,player.y());
         emit moving(player, 1);
         return;
     }
@@ -84,12 +89,14 @@ void UnifindMap::Left()
 
 void UnifindMap::Down()
 {
+    int px = player.x()/20;
+    int py = player.y()/20;
     int x = (player.x() + 0) / 20;
-    int y = (player.y() + 13) / 20;
+    int y = (player.y() + speed) / 20;
     if(y == 29)    return;
-    if(player.y()/20==y || map[x][y-1].right)
+    if(py==y || map[px][py].right)
     {
-        player = QPoint(player.x(),player.y() + 1);
+        player = QPoint(player.x(),player.y() + speed);
         emit moving(player, 2);
         return;
     }
@@ -98,7 +105,9 @@ void UnifindMap::Down()
 
 void UnifindMap::Right()
 {
-    int x = (player.x() + 13) / 20;
+    int px = player.x()/20;
+    int py = player.y()/20;
+    int x = (player.x() + speed) / 20;
     int y = (player.y() + 0) / 20;
     if(x == 39)
     {
@@ -106,9 +115,9 @@ void UnifindMap::Right()
             emit win();
         return;
     }
-    if(player.x()/20==x || map[x-1][y].down)
+    if(px==x || map[px][py].down)
     {
-        player = QPoint(player.x() + 1,player.y());
+        player = QPoint(player.x() + speed,player.y());
         emit moving(player, 3);
         return;
     }
