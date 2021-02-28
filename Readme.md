@@ -1,6 +1,5 @@
 # Daedalus's Maze
 
-# 代达罗斯的迷宫
 
 ![图示](Readme.assets/image-20200326123223663.png)
 
